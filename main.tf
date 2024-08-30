@@ -63,6 +63,7 @@ resource "aws_instance" "four" {
   }
 }
 
+/*
 resource "aws_db_instance" "default" {
   allocated_storage      = 10
   engine                 = "mysql"
@@ -100,7 +101,7 @@ resource "aws_security_group" "database-sg" {
     Name = "Database-SG"
   }
 }
-
+*/
 
 resource "aws_security_group" "five" {
   name = "elb-sg"
