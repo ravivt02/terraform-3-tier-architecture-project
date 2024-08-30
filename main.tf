@@ -6,7 +6,7 @@ region = "ap-southeast-1"
 resource "aws_instance" "one" {
   ami             = "ami-06018068a18569ff2"
   instance_type   = "t2.micro"
-  key_name        = "rahamabc"
+  key_name        = "ravivt"
   vpc_security_group_ids = [aws_security_group.five.id]
   availability_zone = "ap-southeast-1a"
   user_data       = <<EOF
@@ -15,7 +15,7 @@ sudo -i
 yum install httpd -y
 systemctl start httpd
 chkconfig httpd on
-echo "hai all this is my app created by terraform infrastructurte by raham sir server-1" > /var/www/html/index.html
+echo "hai all this is my app created by terraform infrastructurte by ravi server-1" > /var/www/html/index.html
 EOF
   tags = {
     Name = "web-server-1"
@@ -25,7 +25,7 @@ EOF
 resource "aws_instance" "two" {
   ami             = "ami-06018068a18569ff2"
   instance_type   = "t2.micro"
-  key_name        = "rahamabc"
+  key_name        = "ravivt"
   vpc_security_group_ids = [aws_security_group.five.id]
   availability_zone = "ap-southeast-1b"
   user_data       = <<EOF
@@ -34,7 +34,7 @@ sudo -i
 yum install httpd -y
 systemctl start httpd
 chkconfig httpd on
-echo "hai all this is my website created by terraform infrastructurte by raham sir server-2" > /var/www/html/index.html
+echo "hai all this is my website created by terraform infrastructurte by ravi server-2" > /var/www/html/index.html
 EOF
   tags = {
     Name = "web-server-2"
@@ -44,7 +44,7 @@ EOF
 resource "aws_instance" "three" {
   ami             = "ami-06018068a18569ff2"
   instance_type   = "t2.micro"
-  key_name        = "rahamabc"
+  key_name        = "ravivt"
   vpc_security_group_ids = [aws_security_group.five.id]
   availability_zone = "ap-southeast-1a"
   tags = {
@@ -55,13 +55,52 @@ resource "aws_instance" "three" {
 resource "aws_instance" "four" {
   ami             = "ami-06018068a18569ff2"
   instance_type   = "t2.micro"
-  key_name        = "rahamabc"
+  key_name        = "ravivt"
   vpc_security_group_ids = [aws_security_group.five.id]
   availability_zone = "ap-southeast-1b"
   tags = {
     Name = "app-server-2"
   }
 }
+
+resource "aws_db_instance" "default" {
+  allocated_storage      = 10
+  engine                 = "mysql"
+  engine_version         = "8.0.28"
+  instance_class         = "db.t2.micro"
+  multi_az               = false
+  db_name                = "mydb"
+  username               = "ravi"
+  password               = "Ravi111#222#333"
+  skip_final_snapshot    = true
+  vpc_security_group_ids = [aws_security_group.database-sg.id]
+}
+
+# Create Database Security Group
+resource "aws_security_group" "database-sg" {
+  name        = "Database-SG"
+  description = "Allow inbound traffic from application layer"
+
+  ingress {
+    description     = "Allow traffic from application layer"
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 32768
+    to_port     = 65535
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "Database-SG"
+  }
+}
+
 
 resource "aws_security_group" "five" {
   name = "elb-sg"
@@ -88,7 +127,7 @@ resource "aws_security_group" "five" {
 }
 
 resource "aws_s3_bucket" "six" {
-  bucket = "devopsbyrahamterraserverbucket9988oo9988"
+  bucket = "ravivt000222"
 }
 
 resource "aws_iam_user" "seven" {
